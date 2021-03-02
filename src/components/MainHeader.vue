@@ -7,12 +7,16 @@
             <div class="logo-wrapper">
               <img alt="Youtube logo" src="../assets/logo-light.png" />
             </div>
-            <span>Youtube</span>
+            <span v-if="!isSearchInputVisible">Youtube</span>
           </h1>
         </router-link>
-        <button>
+        <p class="search-input-wrapper" v-if="isSearchInputVisible">
+          <input v-model="searchVal" />
+          <span v-if="searchVal" @click="clearSearchInputVal">x</span>
+        </p>
+        <button @click="toggleSearchInput">
           <div class="svg-wrapper">
-            <SearchIcon width="40" height="40" />
+            <SearchIcon width="30" height="30" />
           </div>
         </button>
       </template>
@@ -32,6 +36,20 @@ export default {
   },
   props: {
     msg: String
+  },
+  data: function() {
+    return {
+      isSearchInputVisible: false,
+      searchVal: ""
+    };
+  },
+  methods: {
+    toggleSearchInput() {
+      this.isSearchInputVisible = !this.isSearchInputVisible;
+    },
+    clearSearchInputVal() {
+      this.searchVal = "";
+    }
   }
 };
 </script>
@@ -39,20 +57,20 @@ export default {
 <style scoped lang="scss">
 .header-wrapper {
   display: flex;
-  min-height: 80px;
+  height: 50px;
   justify-content: space-between;
   background-color: $primary;
   align-items: center;
+  padding: 5px 20px;
 
   a {
-    margin: 0 20px;
     cursor: pointer;
     text-decoration: none;
 
     h1 {
       margin: 0;
       color: $white;
-      font-size: 25px;
+      font-size: 17px;
       display: flex;
       align-items: center;
 
@@ -67,15 +85,31 @@ export default {
     }
   }
 
+  .search-input-wrapper {
+    position: relative;
+    margin: 0;
+
+    input {
+      height: 20px;
+    }
+
+    span {
+      position: absolute;
+      right: 10px;
+      top: 2px;
+      font-size: 17px;
+      color: $gray;
+    }
+  }
+
   button {
     background: none;
     border: 0;
-    margin: 0 20px;
+    padding: 0;
     cursor: pointer;
 
     .svg-wrapper {
       width: 50px;
-      height: 100px;
       display: flex;
       justify-content: center;
       align-items: center;
