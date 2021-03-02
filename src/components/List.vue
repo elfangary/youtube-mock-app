@@ -1,7 +1,7 @@
 <template>
   <ul class="list">
     <li v-for="(item, i) in list" :key="i">
-      <ListItem item="item" />
+      <ListItem v-if="item" :item="item" />
     </li>
   </ul>
 </template>
@@ -22,6 +22,14 @@ export default {
 
 <style scoped lang="scss">
 .list {
-  outline: 1px solid $gray;
+  border-top: 1px solid $lightGray;
+  list-style: none;
+  padding: 10px;
+
+  li {
+    & + li {
+      margin-top: 10px;
+    }
+  }
 }
 </style>

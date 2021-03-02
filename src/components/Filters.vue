@@ -31,8 +31,8 @@ export default {
       typeVal: "",
       dateVal: "",
       filtersOptions: {
-        typeFiltersOptions: TYPE_FILTERS_OPTIONS,
-        dateFiltersOptions: DATE_FILTERS_OPTIONS
+        typeFiltersOptions: TYPE_FILTERS_OPTIONS(),
+        dateFiltersOptions: DATE_FILTERS_OPTIONS()
       }
     };
   },
@@ -52,14 +52,15 @@ export default {
   display: flex;
   justify-content: center;
   margin: 20px 0;
+  padding: 0 10px;
 
   select {
-    height: 50px;
+    height: 40px;
     flex: 1;
     padding: 10px;
     color: $gray;
     background: $white;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
 
     & + select {
