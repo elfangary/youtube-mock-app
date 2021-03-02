@@ -1,12 +1,16 @@
 <template>
   <div class="home-page">
-    <p>home page</p>
+    <Filters />
+    <List />
   </div>
 </template>
 
 <script>
+import Filters from "@/components/Filters.vue";
+import List from "@/components/List.vue";
+
 export default {
   name: "HomePage",
-  components: {}
+  components: { Filters, List }
 };
 </script>
