@@ -32,29 +32,29 @@ export const DATE_FILTERS_OPTIONS = () => {
     },
     {
       title: "Today",
-      value: () => {
+      value: (() => {
         const currentDate = new Date();
 
         return new Date(
           currentDate.setDate(currentDate.getDate() - 1)
         ).toISOString();
-      },
+      })(),
       disabled: false
     },
     {
       title: "This Week",
-      value: () => {
+      value: (() => {
         const currentDate = new Date();
 
         return new Date(
           currentDate.setDate(currentDate.getDate() - currentDate.getDay())
         ).toISOString();
-      },
+      })(),
       disabled: false
     },
     {
       title: "This Month",
-      value: () => {
+      value: (() => {
         const currentDate = new Date();
 
         return new Date(
@@ -62,7 +62,7 @@ export const DATE_FILTERS_OPTIONS = () => {
           currentDate.getMonth(),
           1
         ).toISOString();
-      },
+      })(),
       disabled: false
     }
   ];

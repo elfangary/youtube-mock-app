@@ -2,7 +2,8 @@
   <div class="home-page">
     <MainHeader @submit-search="submitSearch" />
     <Filters @type-search="searchBytype" @date-search="searchByDate" />
-    <List list="list" />
+    <List :list="list" />
+    <ShowMoreButton :handleClick="handleShowMoreItems" />
   </div>
 </template>
 
@@ -10,17 +11,20 @@
 import MainHeader from "@/components/MainHeader.vue";
 import Filters from "@/components/Filters.vue";
 import List from "@/components/List.vue";
+import ShowMoreButton from "@/components/ShowMoreButton.vue";
+import { constructSearchQuery } from "@/utils/construct_search_query.js";
 import { SEARCH_API } from "@/api";
 
 export default {
   name: "HomePage",
-  components: { MainHeader, Filters, List },
+  components: { MainHeader, Filters, List, ShowMoreButton },
   data: function() {
     return {
       list: [],
       bindedSearchVal: "",
       bindedTypeVal: "",
-      bindedDateVal: ""
+      bindedDateVal: "",
+      pageToken: ""
     };
   },
   methods: {
@@ -36,21 +40,28 @@ export default {
       this.bindedDateVal = date;
       this.fetchDataList();
     },
+    handleShowMoreItems() {
+      this.fetchDataList();
+    },
     constructApiUrl() {
-      const trimmedSearchVal = this.bindedSearchVal?.replace(" ", "+");
+      const searchParams = {
+        part: "snippet",
+        maxResults: 10,
+        type: this.bindedDateVal,
+        publishedAfter: this.bindedDateVal,
+        q: this.bindedSearchVal?.replace(" ", "+"),
+        pageToken: this.pageToken
+      };
 
-      const searchParams = `part=snippet&maxResults=10${this.bindedTypeVal &&
-        "&type=" + this.bindedTypeVal}${this.bindedDateVal &&
-        "&publishedAfter=" + this.bindedDateVal}${trimmedSearchVal &&
-        "&q=" + trimmedSearchVal}`;
+      const queryStr = constructSearchQuery(searchParams);
 
-      return SEARCH_API(searchParams);
+      return SEARCH_API(queryStr);
     },
     fetchDataList() {
       const apiUrl = this.constructApiUrl();
       this.axios.get(apiUrl).then(response => {
-        debugger;
-        this.list = response.data.items;
+        this.list = this.list.concat(response.data.items);
+        this.pageToken = response.data.nextPageToken;
       });
     }
   },
