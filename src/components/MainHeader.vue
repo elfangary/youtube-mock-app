@@ -34,9 +34,6 @@ export default {
     SearchIcon,
     Container
   },
-  props: {
-    msg: String
-  },
   data: function() {
     return {
       isSearchInputVisible: false,
@@ -45,7 +42,11 @@ export default {
   },
   methods: {
     toggleSearchInput() {
-      this.isSearchInputVisible = !this.isSearchInputVisible;
+      if (this.isSearchInputVisible && this.searchVal) {
+        return this.$emit("submit-search", this.searchVal);
+      }
+
+      return (this.isSearchInputVisible = !this.isSearchInputVisible);
     },
     clearSearchInputVal() {
       this.searchVal = "";
