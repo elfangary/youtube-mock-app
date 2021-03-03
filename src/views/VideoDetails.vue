@@ -68,8 +68,10 @@ export default {
     }
   },
   created() {
-    this.fetchVideoDetails();
-    this.fetchRealatedVideos();
+    if (this.videoId) {
+      this.fetchVideoDetails();
+      this.fetchRealatedVideos();
+    }
   }
 };
 </script>

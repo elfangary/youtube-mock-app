@@ -3,7 +3,7 @@
  *
  * @param {Object} params
  */
-export const constructSearchQuery = params => {
+export const constructSearchQueryStr = params => {
   let searchQueryStr = "";
 
   Object.keys(params).map(key => {
