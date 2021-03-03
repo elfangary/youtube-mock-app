@@ -41,21 +41,7 @@ export default {
   },
   methods: {
     defineItemType() {
-      debugger;
       return this.item.id.kind.replace("youtube#", "");
-    }
-  },
-  computed: {
-    thumbnailStyle() {
-      const x = {
-        width: this.item.snippet.thumbnails.default.width,
-        height: this.item.snippet.thumbnails.default.height
-      };
-      console.log("X", x);
-      return {
-        width: this.item.snippet.thumbnails.default.width,
-        height: this.item.snippet.thumbnails.default.height
-      };
     }
   }
 };

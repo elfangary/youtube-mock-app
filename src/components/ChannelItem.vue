@@ -1,6 +1,5 @@
-<template>
-  <p>{{ item.snippet.title }}</p>
-  <p>{{ item.snippet.channelTitle }}</p>
+<template class="channel-item">
+  <p class="channel-item__title">{{ item.snippet.title }}</p>
 </template>
 
 <script>
@@ -13,3 +12,13 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.channel-item {
+  &__title {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+  }
+}
+</style>
