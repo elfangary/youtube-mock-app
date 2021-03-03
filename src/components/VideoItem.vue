@@ -1,30 +1,34 @@
 <template class="video-item">
-  <p class="video-item__title">{{ item.snippet.title }}</p>
-  <p class="video-item__channel-title">{{ item.snippet.channelTitle }}</p>
+  <router-link
+    :to="{ name: 'VideoDetails', params: { id: itemId } }"
+    class="list-item__link"
+  >
+    <div class="list-item__thumbnail-container">
+      <img :src="thumbnail" class="list-item__thumbnail" :alt="title" />
+    </div>
+    <div class="list-item__description">
+      <p class="list-item__title">{{ title }}</p>
+      <p class="list-item__channel-title">{{ channelTitle }}</p>
+    </div>
+  </router-link>
 </template>
 
 <script>
 export default {
   name: "VideoItem",
   props: {
-    item: {
-      type: Object
+    thumbnail: {
+      type: String
+    },
+    title: {
+      type: String
+    },
+    channelTitle: {
+      type: String
+    },
+    itemId: {
+      type: String
     }
   }
 };
 </script>
-
-<style scoped lang="scss">
-.video-item {
-  &__title {
-    font-size: 15px;
-    font-weight: bold;
-    margin: 0 0 5px 0;
-  }
-
-  &__channel-title {
-    font-size: 13px;
-    margin: 0;
-  }
-}
-</style>

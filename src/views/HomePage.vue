@@ -21,7 +21,7 @@ import Filters from "@/components/Filters.vue";
 import List from "@/components/List.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import Loading from "@/components/Loading.vue";
-import { constructSearchQuery } from "@/utils/construct_search_query.js";
+import { constructSearchQueryStr } from "@/utils/construct_search_query_string.js";
 import SearchService from "@/services/SearchService.js";
 
 export default {
@@ -63,7 +63,7 @@ export default {
         pageToken: this.nextPageToken
       };
 
-      return constructSearchQuery(searchParams);
+      return constructSearchQueryStr(searchParams);
     },
     fetchDataList(options) {
       const { resetList } = options;

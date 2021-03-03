@@ -1,21 +1,24 @@
-<template>
-  <router-link
-    :to="{ name: 'VideoDetails', params: { id: item.id.videoId } }"
-    class="list-item"
-  >
-    <div class="list-item__thumbnail-container">
-      <img
-        :src="item.snippet.thumbnails.default.url"
-        class="list-item__thumbnail"
-        :alt="item.snippet.title"
-      />
-    </div>
-    <div class="list-item__description">
-      <VideoItem v-if="isVideo" :item="item" />
-      <PlayListItem v-if="isPlayList" :item="item" />
-      <ChannelItem v-if="isChannel" :item="item" />
-    </div>
-  </router-link>
+<template class="list-item">
+  <VideoItem
+    v-if="isVideo"
+    :thumbnail="item.snippet.thumbnails.default.url"
+    :title="item.snippet.title"
+    :channelTitle="item.snippet.channelTitle"
+    :itemId="itemId"
+  />
+  <PlayListItem
+    v-if="isPlayList"
+    :thumbnail="item.snippet.thumbnails.default.url"
+    :title="item.snippet.title"
+    :channelTitle="item.snippet.channelTitle"
+    :itemId="itemId"
+  />
+  <ChannelItem
+    v-if="isChannel"
+    :thumbnail="item.snippet.thumbnails.default.url"
+    :title="item.snippet.title"
+    :itemId="itemId"
+  />
 </template>
 
 <script>
@@ -28,6 +31,12 @@ export default {
   props: {
     item: {
       type: Object
+    }
+  },
+  computed: {
+    itemId() {
+      const itemType = this.defineItemType();
+      return `${this.item.id[`${itemType}Id`]}`;
     }
   },
   components: {
@@ -50,10 +59,12 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .list-item {
-  display: flex;
-  text-decoration: none;
+  &__link {
+    display: flex;
+    text-decoration: none;
+  }
 
   &__description {
     display: flex;
@@ -61,6 +72,17 @@ export default {
     color: $gray;
     text-align: left;
     margin-left: 10px;
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+  }
+
+  &__channel-title {
+    font-size: 13px;
+    margin: 0;
   }
 }
 </style>

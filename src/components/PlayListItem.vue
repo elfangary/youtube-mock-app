@@ -1,30 +1,34 @@
 <template class="playlist-item">
-  <p class="playlist-item__title">{{ item.snippet.title }}</p>
-  <p class="playlist-item__creator">{{ item.snippet.channelTitle }}</p>
+  <router-link
+    :to="{ name: 'PlaylistDetails', params: { id: itemId } }"
+    class="list-item__link"
+  >
+    <div class="list-item__thumbnail-container">
+      <img :src="thumbnail" class="list-item__thumbnail" :alt="title" />
+    </div>
+    <div class="list-item__description">
+      <p class="list-item__title">{{ title }}</p>
+      <p class="list-item__channel-title">{{ channelTitle }}</p>
+    </div>
+  </router-link>
 </template>
 
 <script>
 export default {
   name: "PlayListItem",
   props: {
-    item: {
-      type: Object
+    thumbnail: {
+      type: String
+    },
+    title: {
+      type: String
+    },
+    channelTitle: {
+      type: String
+    },
+    itemId: {
+      type: String
     }
   }
 };
 </script>
-
-<style scoped lang="scss">
-.playlist-item {
-  &__title {
-    font-size: 15px;
-    font-weight: bold;
-    margin: 0 0 5px 0;
-  }
-
-  &__creator {
-    font-size: 13px;
-    margin: 0;
-  }
-}
-</style>
