@@ -22,7 +22,7 @@ import List from "@/components/List.vue";
 import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import Loading from "@/components/Loading.vue";
 import { constructSearchQuery } from "@/utils/construct_search_query.js";
-import { SEARCH_API } from "@/api";
+import SearchService from "@/services/SearchService.js";
 
 export default {
   name: "HomePage",
@@ -53,7 +53,7 @@ export default {
     handleShowMoreItems() {
       this.fetchDataList({ resetList: false });
     },
-    constructApiUrl() {
+    constructSearchQuery() {
       const searchParams = {
         part: "snippet",
         maxResults: 10,
@@ -63,24 +63,19 @@ export default {
         pageToken: this.nextPageToken
       };
 
-      const queryStr = constructSearchQuery(searchParams);
-
-      return SEARCH_API(queryStr);
+      return constructSearchQuery(searchParams);
     },
     fetchDataList(options) {
       const { resetList } = options;
-      const apiUrl = this.constructApiUrl();
+      const queryStr = this.constructSearchQuery();
 
       if (resetList) this.loading = true;
       if (!resetList) this.showMoreLoading = true;
 
-      this.axios
-        .get(apiUrl)
-        .then(response => {
-          this.list = resetList
-            ? response.data.items
-            : this.list.concat(response.data.items);
-          this.nextPageToken = response.data.nextPageToken;
+      SearchService.search(queryStr)
+        .then(data => {
+          this.list = resetList ? data.items : this.list.concat(data.items);
+          this.nextPageToken = data.nextPageToken;
           this.loading = false;
           this.showMoreLoading = false;
           this.error = null;
