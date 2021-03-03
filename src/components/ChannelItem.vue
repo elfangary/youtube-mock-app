@@ -1,24 +1,30 @@
 <template class="channel-item">
-  <p class="channel-item__title">{{ item.snippet.title }}</p>
+  <router-link
+    :to="{ name: 'ChannelDetails', params: { id: itemId } }"
+    class="list-item__link"
+  >
+    <div class="list-item__thumbnail-container">
+      <img :src="thumbnail" class="list-item__thumbnail" :alt="title" />
+    </div>
+    <div class="list-item__description">
+      <p class="list-item__title">{{ title }}</p>
+    </div>
+  </router-link>
 </template>
 
 <script>
 export default {
   name: "ChannelItem",
   props: {
-    item: {
-      type: Object
+    thumbnail: {
+      type: String
+    },
+    title: {
+      type: String
+    },
+    itemId: {
+      type: String
     }
   }
 };
 </script>
-
-<style scoped lang="scss">
-.channel-item {
-  &__title {
-    font-size: 15px;
-    font-weight: bold;
-    margin: 0 0 5px 0;
-  }
-}
-</style>

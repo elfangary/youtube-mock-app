@@ -9,3 +9,12 @@ export const VIDEO_API = id =>
 
 export const RELATED_VIDEOS_API = id =>
   `${MAIN_API_URL}/search?part=snippet&relatedToVideoId=${id}&type=video&maxResults=10&key=${API_KEY}`;
+
+export const CHANNEL_DETAILS_API = id =>
+  `${MAIN_API_URL}/channels?part=contentDetails,brandingSettings,statistics,snippet&id=${id}&key=${API_KEY}`;
+
+export const CHANNEL_SECTIONS_API = id =>
+  `${MAIN_API_URL}/channelSections?part=contentDetails,snippet&channelId=${id}&key=${API_KEY}`;
+
+export const PLAYLISTS_API = id =>
+  `${MAIN_API_URL}/playlists?part=contentDetails,snippet,player&channelId=${id}&key=${API_KEY}`;
