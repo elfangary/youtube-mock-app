@@ -1,13 +1,22 @@
 <template>
-  <button class="show-more-button" @click="handleClick">Show More Items</button>
+  <button class="show-more-button" @click="handleClick" :disabled="loading">
+    <LoadingIcon width="20" height="20" v-if="loading" />
+    <span v-if="!loading">Show More Items</span>
+  </button>
 </template>
 
 <script>
+import LoadingIcon from "@/components/icons/Loading.vue";
+
 export default {
   name: "ShowMoreButton",
+  components: { LoadingIcon },
   props: {
     handleClick: {
       type: Function
+    },
+    loading: {
+      type: Boolean
     }
   }
 };

@@ -1,5 +1,8 @@
 <template>
-  <a class="list-item">
+  <router-link
+    :to="{ name: 'VideoDetails', params: { id: item.id.videoId } }"
+    class="list-item"
+  >
     <div class="list-item__thumbnail-container">
       <img
         :src="item.snippet.thumbnails.default.url"
@@ -12,7 +15,7 @@
       <PlayListItem v-if="isPlayList" :item="item" />
       <ChannelItem v-if="isChannel" :item="item" />
     </div>
-  </a>
+  </router-link>
 </template>
 
 <script>
@@ -50,6 +53,7 @@ export default {
 <style scoped lang="scss">
 .list-item {
   display: flex;
+  text-decoration: none;
 
   &__description {
     display: flex;

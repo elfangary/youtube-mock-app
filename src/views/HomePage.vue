@@ -4,7 +4,11 @@
     <Filters @type-search="searchBytype" @date-search="searchByDate" />
     <template v-if="!loading && !error">
       <List :list="list" />
-      <ShowMoreButton :handleClick="handleShowMoreItems" />
+      <ShowMoreButton
+        v-if="nextPageToken"
+        :handleClick="handleShowMoreItems"
+        :loading="showMoreLoading"
+      />
     </template>
     <Loading v-if="loading" />
     <p v-if="error">{{ error }}</p>
@@ -29,8 +33,9 @@ export default {
       bindedSearchVal: "",
       bindedTypeVal: "",
       bindedDateVal: "",
-      pageToken: "",
+      nextPageToken: "",
       loading: false,
+      showMoreLoading: false,
       error: null
     };
   },
@@ -55,7 +60,7 @@ export default {
         type: this.bindedTypeVal,
         publishedAfter: this.bindedDateVal,
         q: this.bindedSearchVal?.replace(" ", "+"),
-        pageToken: this.pageToken
+        pageToken: this.nextPageToken
       };
 
       const queryStr = constructSearchQuery(searchParams);
@@ -65,19 +70,24 @@ export default {
     fetchDataList(options) {
       const { resetList } = options;
       const apiUrl = this.constructApiUrl();
-      this.loading = true;
+
+      if (resetList) this.loading = true;
+      if (!resetList) this.showMoreLoading = true;
+
       this.axios
         .get(apiUrl)
         .then(response => {
           this.list = resetList
             ? response.data.items
             : this.list.concat(response.data.items);
-          this.pageToken = response.data.nextPageToken;
+          this.nextPageToken = response.data.nextPageToken;
           this.loading = false;
+          this.showMoreLoading = false;
           this.error = null;
         })
         .catch(err => {
           this.loading = false;
+          this.showMoreLoading = false;
           this.error = err.message;
         });
     }
