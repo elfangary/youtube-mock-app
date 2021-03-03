@@ -15,7 +15,8 @@ import MainHeader from "@/components/MainHeader.vue";
 import List from "@/components/List.vue";
 import Video from "@/components/Video.vue";
 import Loading from "@/components/Loading.vue";
-import { VIDEO_API, RELATED_VIDEOS_API } from "@/api";
+import VideoService from "@/services/VideoService.js";
+import RelatedVideosService from "@/services/RelatedVideosService.js";
 
 export default {
   name: "VideoDetails",
@@ -29,14 +30,20 @@ export default {
       error: null
     };
   },
+  watch: {
+    "$route.params.id"(id) {
+      this.videoId = id;
+      this.fetchVideoDetails();
+      this.fetchRealatedVideos();
+    }
+  },
   methods: {
     fetchVideoDetails() {
-      const apiUrl = VIDEO_API(this.$route.params.id);
       this.loading = true;
-      this.axios
-        .get(apiUrl)
-        .then(response => {
-          this.videoData = response.data.items[0];
+
+      VideoService.videoDetails(this.videoId)
+        .then(data => {
+          this.videoData = data.items[0];
           this.loading = false;
           this.error = null;
         })
@@ -46,12 +53,11 @@ export default {
         });
     },
     fetchRealatedVideos() {
-      const apiUrl = RELATED_VIDEOS_API(this.$route.params.id);
       this.loading = true;
-      this.axios
-        .get(apiUrl)
-        .then(response => {
-          this.relatedVideos = response.data.items;
+
+      RelatedVideosService.relatedVideos(this.videoId)
+        .then(data => {
+          this.relatedVideos = data.items;
           this.loading = false;
           this.error = null;
         })
@@ -61,7 +67,7 @@ export default {
         });
     }
   },
-  mounted() {
+  created() {
     this.fetchVideoDetails();
     this.fetchRealatedVideos();
   }
