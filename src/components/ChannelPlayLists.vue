@@ -11,7 +11,7 @@
         :key="i"
       >
         <PlayListItem
-          :thumbnail="playlist.snippet.thumbnails.default.url"
+          :thumbnails="playlist.snippet.thumbnails"
           :title="playlist.snippet.title"
           :channelTitle="playlist.snippet.channelTitle"
           :itemId="playlist.id"

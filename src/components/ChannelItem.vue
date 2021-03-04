@@ -13,17 +13,25 @@
 </template>
 
 <script>
+import { IsDesktopViewMixin } from "@/mixins/IsDesktopViewMixin.js";
+
 export default {
   name: "ChannelItem",
+  mixins: [IsDesktopViewMixin],
   props: {
-    thumbnail: {
-      type: String
+    thumbnails: {
+      type: Object
     },
     title: {
       type: String
     },
     itemId: {
       type: String
+    }
+  },
+  computed: {
+    thumbnail() {
+      return this.thumbnails[this.isDesktopView ? "medium" : "default"].url;
     }
   }
 };
