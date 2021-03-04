@@ -1,21 +1,21 @@
 <template class="list-item">
   <VideoItem
     v-if="isVideo"
-    :thumbnail="item.snippet.thumbnails.default.url"
+    :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
   />
   <PlayListItem
     v-if="isPlayList"
-    :thumbnail="item.snippet.thumbnails.default.url"
+    :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
   />
   <ChannelItem
     v-if="isChannel"
-    :thumbnail="item.snippet.thumbnails.default.url"
+    :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
     :itemId="itemId"
   />
