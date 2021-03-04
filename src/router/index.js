@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/views/HomePage.vue";
 import VideoDetails from "@/views/VideoDetails.vue";
 import ChannelDetails from "@/views/ChannelDetails.vue";
+import PlayListDetails from "@/views/PlayListDetails.vue";
 
 const routes = [
   {
@@ -22,7 +23,7 @@ const routes = [
   {
     path: "/playlist/:id",
     name: "PlaylistDetails",
-    component: ChannelDetails
+    component: PlayListDetails
   }
 ];
 
