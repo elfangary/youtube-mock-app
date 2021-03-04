@@ -1,6 +1,6 @@
 <template>
   <div class="playlist-details">
-    <MainHeader @submit-search="submitSearch" />
+    <MainHeader @submit-search="submitSearch" :loading="loading" />
     <p class="playlist-details__title">Playlist</p>
     <template v-if="!loading && !error">
       <ul
@@ -9,7 +9,7 @@
       >
         <li class="list-item" v-for="(item, i) in playlistItems" :key="i">
           <VideoItem
-            :thumbnail="item.snippet.thumbnails.default.url"
+            :thumbnails="item.snippet.thumbnails"
             :title="item.snippet.title"
             :channelTitle="item.snippet.channelTitle"
             :itemId="item.id.videoId"
@@ -63,6 +63,14 @@ export default {
           this.loading = false;
           this.error = err.message;
         });
+    },
+    submitSearch(searchVal) {
+      this.$router.push({
+        path: "/search",
+        query: {
+          q: searchVal?.replace(" ", "+")
+        }
+      });
     }
   },
   created() {
