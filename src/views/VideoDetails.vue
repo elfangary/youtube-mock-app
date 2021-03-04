@@ -33,8 +33,10 @@ export default {
   watch: {
     "$route.params.id"(id) {
       this.videoId = id;
-      this.fetchVideoDetails();
-      this.fetchRealatedVideos();
+      if (id) {
+        this.fetchVideoDetails();
+        this.fetchRealatedVideos();
+      }
     }
   },
   methods: {

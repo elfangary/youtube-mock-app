@@ -18,3 +18,6 @@ export const CHANNEL_SECTIONS_API = id =>
 
 export const PLAYLISTS_API = id =>
   `${MAIN_API_URL}/playlists?part=contentDetails,snippet,player&channelId=${id}&key=${API_KEY}`;
+
+export const PLAYLIST_ITEMS_API = id =>
+  `${MAIN_API_URL}/playlistItems?part=contentDetails,snippet&playlistId=${id}&key=${API_KEY}`;
