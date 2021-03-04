@@ -1,38 +1,54 @@
 <template>
-  <div class="main-header">
-    <Container>
-      <template class="header-wrapper">
-        <router-link to="/">
-          <h1>
-            <div class="logo-wrapper">
-              <img alt="Youtube logo" src="../assets/logo-light.png" />
-            </div>
-            <span v-if="!isSearchInputVisible">Youtube</span>
-          </h1>
-        </router-link>
-        <p class="search-input-wrapper" v-if="isSearchInputVisible">
-          <input v-model="searchVal" />
-          <span v-if="searchVal" @click="clearSearchInputVal">x</span>
-        </p>
-        <button @click="toggleSearchInput">
-          <div class="svg-wrapper">
-            <SearchIcon width="30" height="30" />
+  <div
+    class="main-header"
+    :class="[isDesktopView ? 'sticky' : '', loading ? 'animate-border' : '']"
+  >
+    <template class="header-wrapper" :class="loading ? 'animate-border' : ''">
+      <router-link to="/search">
+        <h1>
+          <div class="logo-wrapper">
+            <img alt="Youtube logo" :src="logoUrl" />
           </div>
-        </button>
-      </template>
-    </Container>
+          <span v-if="!isSearchInputVisible || isDesktopView">Youtube</span>
+        </h1>
+      </router-link>
+      <p
+        class="search-input-wrapper"
+        v-if="isSearchInputVisible || isDesktopView"
+      >
+        <input v-model="searchVal" />
+        <span v-if="searchVal" @click="clearSearchInputVal">x</span>
+      </p>
+      <button @click="toggleSearchInput">
+        <div class="svg-wrapper">
+          <SearchIcon
+            width="30"
+            height="30"
+            :color="isDesktopView ? '#696969' : '#ffffff'"
+          />
+        </div>
+      </button>
+    </template>
   </div>
 </template>
 
 <script>
 import SearchIcon from "@/components/icons/Search.vue";
-import Container from "@/components/Container.vue";
+import { IsDesktopViewMixin } from "@/mixins/IsDesktopViewMixin.js";
+
+const primrayLogo = require("../assets/logo.png");
+const secondaryLogo = require("../assets/logo-light.png");
 
 export default {
   name: "MainHeader",
+  mixins: [IsDesktopViewMixin],
   components: {
-    SearchIcon,
-    Container
+    SearchIcon
+  },
+  props: {
+    loading: {
+      type: Boolean
+    }
   },
   data: function() {
     return {
@@ -40,9 +56,14 @@ export default {
       searchVal: ""
     };
   },
+  computed: {
+    logoUrl() {
+      return this.isDesktopView ? primrayLogo : secondaryLogo;
+    }
+  },
   methods: {
     toggleSearchInput() {
-      if (this.isSearchInputVisible && this.searchVal) {
+      if (this.isSearchInputVisible || this.isDesktopView) {
         return this.$emit("submit-search", this.searchVal);
       }
 
@@ -55,7 +76,36 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.main-header {
+  &.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    & + * {
+      padding-top: 50px;
+    }
+
+    &::after {
+      content: " ";
+      display: block;
+      width: 0;
+      height: 3px;
+      background: $primary;
+      transition: width 500ms;
+    }
+
+    &.animate-border {
+      &::after {
+        width: 100%;
+        position: relative;
+        top: 0;
+      }
+    }
+  }
+}
+
 .header-wrapper {
   display: flex;
   height: 50px;
@@ -63,6 +113,7 @@ export default {
   background-color: $primary;
   align-items: center;
   padding: 5px 20px;
+  box-shadow: 0 4px 2px 0px $lightGray;
 
   a {
     cursor: pointer;
@@ -114,6 +165,23 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+  }
+
+  @media (min-width: 768px) {
+    background-color: $white;
+
+    a {
+      h1 {
+        color: $black;
+      }
+    }
+
+    .search-input-wrapper {
+      input {
+        height: 25px;
+        width: 500px;
+      }
     }
   }
 }

@@ -1,7 +1,11 @@
 <template>
   <div class="home-page">
-    <MainHeader @submit-search="submitSearch" />
-    <Filters @type-search="searchBytype" @date-search="searchByDate" />
+    <MainHeader @submit-search="submitSearch" :loading="loading" />
+    <Filters
+      @type-search="searchBytype"
+      @date-search="searchByDate"
+      @sortBy-search="searchBySort"
+    />
     <template v-if="!loading && !error">
       <List :list="list" />
       <ShowMoreButton
@@ -33,6 +37,7 @@ export default {
       bindedSearchVal: "",
       bindedTypeVal: "",
       bindedDateVal: "",
+      bindedSortVal: "relevance",
       nextPageToken: "",
       loading: false,
       showMoreLoading: false,
@@ -42,13 +47,15 @@ export default {
   methods: {
     submitSearch(searchVal) {
       this.bindedSearchVal = searchVal;
-      this.fetchDataList({ resetList: true });
     },
     searchBytype(type) {
       this.bindedTypeVal = type;
     },
     searchByDate(date) {
       this.bindedDateVal = date;
+    },
+    searchBySort(sort) {
+      this.bindedSortVal = sort;
     },
     handleShowMoreItems() {
       this.fetchDataList({ resetList: false });
@@ -57,10 +64,7 @@ export default {
       const searchParams = {
         part: "snippet",
         maxResults: 10,
-        type: this.bindedTypeVal,
-        publishedAfter: this.bindedDateVal,
-        q: this.bindedSearchVal?.replace(" ", "+"),
-        pageToken: this.nextPageToken
+        ...this.$route.query
       };
 
       return constructSearchQueryStr(searchParams);
@@ -85,6 +89,18 @@ export default {
           this.showMoreLoading = false;
           this.error = err.message;
         });
+    },
+    handleChangeInSearchParams() {
+      this.$router.push({
+        path: "/search",
+        query: {
+          type: this.bindedTypeVal,
+          publishedAfter: this.bindedDateVal,
+          order: this.bindedSortVal,
+          q: this.bindedSearchVal ? this.bindedSearchVal.replace(" ", "+") : "",
+          pageToken: this.nextPageToken
+        }
+      });
     }
   },
   mounted() {
@@ -92,12 +108,18 @@ export default {
   },
   watch: {
     bindedSearchVal() {
-      this.fetchDataList({ resetList: true });
+      this.handleChangeInSearchParams();
     },
     bindedTypeVal() {
-      this.fetchDataList({ resetList: true });
+      this.handleChangeInSearchParams();
     },
     bindedDateVal() {
+      this.handleChangeInSearchParams();
+    },
+    bindedSortVal() {
+      this.handleChangeInSearchParams();
+    },
+    "$route.query"() {
       this.fetchDataList({ resetList: true });
     }
   }

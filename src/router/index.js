@@ -6,7 +6,7 @@ import PlayListDetails from "@/views/PlayListDetails.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/search",
     name: "HomePage",
     component: HomePage
   },
@@ -24,7 +24,8 @@ const routes = [
     path: "/playlist/:id",
     name: "PlaylistDetails",
     component: PlayListDetails
-  }
+  },
+  { path: "/", redirect: "/search" }
 ];
 
 const router = createRouter({
