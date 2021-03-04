@@ -14,11 +14,14 @@
 </template>
 
 <script>
+import { IsDesktopViewMixin } from "@/mixins/IsDesktopViewMixin.js";
+
 export default {
   name: "VideoItem",
+  mixins: [IsDesktopViewMixin],
   props: {
-    thumbnail: {
-      type: String
+    thumbnails: {
+      type: Object
     },
     title: {
       type: String
@@ -28,6 +31,11 @@ export default {
     },
     itemId: {
       type: String
+    }
+  },
+  computed: {
+    thumbnail() {
+      return this.thumbnails[this.isDesktopView ? "medium" : "default"].url;
     }
   }
 };

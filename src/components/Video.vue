@@ -41,9 +41,11 @@
 <script>
 import Like from "@/components/icons/Like.vue";
 import Dislike from "@/components/icons/Dislike.vue";
+import { IsDesktopViewMixin } from "@/mixins/IsDesktopViewMixin.js";
 
 export default {
   name: "Video",
+  mixins: [IsDesktopViewMixin],
   components: { Like, Dislike },
   props: {
     videoData: {
@@ -113,6 +115,12 @@ export default {
       span {
         margin-right: 5px;
       }
+    }
+  }
+
+  @media (min-width: 768px) {
+    &__player {
+      height: 500px;
     }
   }
 }
