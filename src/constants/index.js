@@ -67,3 +67,33 @@ export const DATE_FILTERS_OPTIONS = () => {
     }
   ];
 };
+
+export const SORT_BY_FILTERS_OPTIONS = () => {
+  return [
+    {
+      title: "All Sorts",
+      value: "",
+      disabled: false
+    },
+    {
+      title: "Relevance",
+      value: "relevance",
+      disabled: false
+    },
+    {
+      title: "Upload Date",
+      value: "uploadDate",
+      disabled: false
+    },
+    {
+      title: "View Count",
+      value: "viewCount",
+      disabled: false
+    },
+    {
+      title: "Rating",
+      value: "rating",
+      disabled: false
+    }
+  ];
+};
