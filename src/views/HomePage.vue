@@ -42,10 +42,10 @@ export default {
     return {
       list: [],
       totalResultsCount: 0,
-      bindedSearchVal: "",
-      bindedTypeVal: "",
-      bindedDateVal: "",
-      bindedSortVal: "relevance",
+      boundedSearchVal: "",
+      boundedTypeVal: "",
+      boundedDateVal: "",
+      boundedSortVal: "relevance",
       nextPageToken: "",
       loading: false,
       showMoreLoading: false,
@@ -54,16 +54,16 @@ export default {
   },
   methods: {
     submitSearch(searchVal) {
-      this.bindedSearchVal = searchVal;
+      this.boundedSearchVal = searchVal;
     },
     searchBytype(type) {
-      this.bindedTypeVal = type;
+      this.boundedTypeVal = type;
     },
     searchByDate(date) {
-      this.bindedDateVal = date;
+      this.boundedDateVal = date;
     },
     searchBySort(sort) {
-      this.bindedSortVal = sort;
+      this.boundedSortVal = sort;
     },
     handleShowMoreItems() {
       this.fetchDataList({ resetList: false });
@@ -106,10 +106,12 @@ export default {
       this.$router.push({
         path: "/search",
         query: {
-          type: this.bindedTypeVal,
-          publishedAfter: this.bindedDateVal,
-          order: this.bindedSortVal,
-          q: this.bindedSearchVal ? this.bindedSearchVal.replace(" ", "+") : "",
+          type: this.boundedTypeVal,
+          publishedAfter: this.boundedDateVal,
+          order: this.boundedSortVal,
+          q: this.boundedSearchVal
+            ? this.boundedSearchVal.replace(" ", "+")
+            : "",
           pageToken: this.nextPageToken
         }
       });
@@ -119,16 +121,16 @@ export default {
     this.fetchDataList({ resetList: true });
   },
   watch: {
-    bindedSearchVal() {
+    boundedSearchVal() {
       this.handleChangeInSearchParams();
     },
-    bindedTypeVal() {
+    boundedTypeVal() {
       this.handleChangeInSearchParams();
     },
-    bindedDateVal() {
+    boundedDateVal() {
       this.handleChangeInSearchParams();
     },
-    bindedSortVal() {
+    boundedSortVal() {
       this.handleChangeInSearchParams();
     },
     "$route.query"() {
