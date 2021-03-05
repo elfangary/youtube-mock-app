@@ -6,7 +6,7 @@
       </p>
       <ul class="list">
         <li v-for="(item, i) in list" :key="i">
-          <ListItem v-if="item" :item="item" />
+          <ListItem v-if="item" :item="item" :showItemDesc="showItemDesc" />
         </li>
       </ul>
     </Container>
@@ -28,6 +28,9 @@ export default {
     },
     totalResultsCount: {
       type: Number
+    },
+    showItemDesc: {
+      type: Boolean
     }
   }
 };
