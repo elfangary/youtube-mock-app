@@ -6,9 +6,13 @@
 
 <style scoped lang="scss">
 .container {
-  width: 80%;
+  width: 100%;
   height: 100%;
-  margin: auto;
   position: relative;
+
+  @media (min-width: 768px) {
+    width: 80%;
+    margin: auto;
+  }
 }
 </style>
