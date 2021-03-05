@@ -1,22 +1,26 @@
 <template>
   <div class="playlist-details">
     <MainHeader @submit-search="submitSearch" :loading="loading" />
-    <p class="playlist-details__title">Playlist</p>
-    <template v-if="!loading && !error">
-      <ul
-        class="playlist-details__list"
-        v-if="playlistItems.length && !loading && !error"
-      >
-        <li class="list-item" v-for="(item, i) in playlistItems" :key="i">
-          <VideoItem
-            :thumbnails="item.snippet.thumbnails"
-            :title="item.snippet.title"
-            :channelTitle="item.snippet.channelTitle"
-            :itemId="item.id.videoId"
-          />
-        </li>
-      </ul>
-    </template>
+    <div>
+      <template v-if="!loading && !error">
+        <Container>
+          <p class="playlist-details__title">Playlist</p>
+          <ul
+            class="playlist-details__list"
+            v-if="playlistItems.length && !loading && !error"
+          >
+            <li class="list-item" v-for="(item, i) in playlistItems" :key="i">
+              <VideoItem
+                :thumbnails="item.snippet.thumbnails"
+                :title="item.snippet.title"
+                :channelTitle="item.snippet.channelTitle"
+                :itemId="item.snippet.resourceId.videoId"
+              />
+            </li>
+          </ul>
+        </Container>
+      </template>
+    </div>
     <Loading v-if="loading" />
     <p v-if="error">{{ error }}</p>
   </div>
@@ -27,13 +31,15 @@ import MainHeader from "@/components/MainHeader.vue";
 import VideoItem from "@/components/VideoItem.vue";
 import Loading from "@/components/Loading.vue";
 import PlaylistsService from "@/services/PlaylistsService.js";
+import Container from "@/components/Container.vue";
 
 export default {
   name: "PlayListDetails",
   components: {
     MainHeader,
     VideoItem,
-    Loading
+    Loading,
+    Container
   },
   data: function() {
     return {
@@ -82,7 +88,7 @@ export default {
 <style scoped lang="scss">
 .playlist-details {
   &__title {
-    color: $gray;
+    color: $black;
     font-size: 20px;
     font-weight: bold;
     text-align: left;
