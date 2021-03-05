@@ -1,37 +1,42 @@
 <template class="channel-uploads">
-  <div class="channel-uploads__container">
-    <p class="channel-uploads__title">Uploads</p>
-    <ul
-      class="channel-uploads__list"
-      v-if="uploadsList.length && !loading && !error"
-    >
-      <li
-        class="channel-uploads__list__item"
-        v-for="(channelUpload, i) in uploadsList"
-        :key="i"
-      >
-        <VideoItem
-          :thumbnails="channelUpload.snippet.thumbnails"
-          :title="channelUpload.snippet.title"
-          :channelTitle="channelUpload.snippet.channelTitle"
-          :itemId="channelUpload.id.videoId"
-        />
-      </li>
-    </ul>
-    <Loading v-if="loading" />
-    <p v-if="error">{{ error }}</p>
+  <div class="channel-uploads__wrapper">
+    <Container>
+      <div class="channel-uploads__container">
+        <p class="channel-uploads__title">Uploads</p>
+        <ul
+          class="channel-uploads__list"
+          v-if="uploadsList.length && !loading && !error"
+        >
+          <li
+            class="channel-uploads__list__item"
+            v-for="(channelUpload, i) in uploadsList"
+            :key="i"
+          >
+            <VideoItem
+              :thumbnails="channelUpload.snippet.thumbnails"
+              :title="channelUpload.snippet.title"
+              :channelTitle="channelUpload.snippet.channelTitle"
+              :itemId="channelUpload.id.videoId"
+            />
+          </li>
+        </ul>
+        <Loading v-if="loading" />
+        <p v-if="error">{{ error }}</p>
+      </div>
+    </Container>
   </div>
 </template>
 
 <script>
 import VideoItem from "@/components/VideoItem.vue";
 import Loading from "@/components/Loading.vue";
+import Container from "@/components/Container.vue";
 import { constructSearchQueryStr } from "@/utils/construct_search_query_string.js";
 import SearchService from "@/services/SearchService.js";
 
 export default {
   name: "ChannelUploads",
-  components: { VideoItem, Loading },
+  components: { VideoItem, Loading, Container },
   props: {
     channelId: {
       type: Object

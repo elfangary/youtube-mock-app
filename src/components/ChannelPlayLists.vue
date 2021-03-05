@@ -1,25 +1,29 @@
 <template class="channel-playlists">
-  <div class="channel-playlists__container">
-    <p class="channel-playlists__title">PlayLists</p>
-    <ul
-      class="channel-playlists__list"
-      v-if="channelPlaylists.length && !loading && !error"
-    >
-      <li
-        class="channel-playlists__list__item"
-        v-for="(playlist, i) in channelPlaylists"
-        :key="i"
-      >
-        <PlayListItem
-          :thumbnails="playlist.snippet.thumbnails"
-          :title="playlist.snippet.title"
-          :channelTitle="playlist.snippet.channelTitle"
-          :itemId="playlist.id"
-        />
-      </li>
-    </ul>
-    <Loading v-if="loading" />
-    <p v-if="error">{{ error }}</p>
+  <div class="channel-uploads__wrapper">
+    <Container>
+      <div class="channel-playlists__container">
+        <p class="channel-playlists__title">PlayLists</p>
+        <ul
+          class="channel-playlists__list"
+          v-if="channelPlaylists.length && !loading && !error"
+        >
+          <li
+            class="channel-playlists__list__item"
+            v-for="(playlist, i) in channelPlaylists"
+            :key="i"
+          >
+            <PlayListItem
+              :thumbnails="playlist.snippet.thumbnails"
+              :title="playlist.snippet.title"
+              :channelTitle="playlist.snippet.channelTitle"
+              :itemId="playlist.id"
+            />
+          </li>
+        </ul>
+        <Loading v-if="loading" />
+        <p v-if="error">{{ error }}</p>
+      </div>
+    </Container>
   </div>
 </template>
 
@@ -27,10 +31,11 @@
 import PlaylistsService from "@/services/PlaylistsService.js";
 import PlayListItem from "@/components/PlayListItem.vue";
 import Loading from "@/components/Loading.vue";
+import Container from "@/components/Container.vue";
 
 export default {
   name: "ChannelPlayLists",
-  components: { PlayListItem, Loading },
+  components: { PlayListItem, Loading, Container },
   props: {
     channelId: {
       type: Object
