@@ -11,7 +11,7 @@
         :key="i"
       >
         <VideoItem
-          :thumbnail="channelUpload.snippet.thumbnails.default.url"
+          :thumbnails="channelUpload.snippet.thumbnails"
           :title="channelUpload.snippet.title"
           :channelTitle="channelUpload.snippet.channelTitle"
           :itemId="channelUpload.id.videoId"

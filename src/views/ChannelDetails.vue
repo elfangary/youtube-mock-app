@@ -1,6 +1,6 @@
 <template>
   <div class="channel-details">
-    <MainHeader @submit-search="submitSearch" />
+    <MainHeader @submit-search="submitSearch" :loading="loading" />
     <template v-if="!loading && !error">
       <ChannelBanner v-if="channelData" :channelData="channelData" />
       <template v-if="channelSections.length">
@@ -74,6 +74,14 @@ export default {
           this.loading = false;
           this.error = err.message;
         });
+    },
+    submitSearch(searchVal) {
+      this.$router.push({
+        path: "/search",
+        query: {
+          q: searchVal?.replace(" ", "+")
+        }
+      });
     }
   },
   created() {

@@ -1,6 +1,6 @@
 <template>
   <div class="video-details">
-    <MainHeader @submit-search="submitSearch" />
+    <MainHeader @submit-search="submitSearch" :loading="loading" />
     <template v-if="!loading && !error && videoData">
       <Video :videoData="videoData" />
       <List v-if="relatedVideos.length" :list="relatedVideos" />
@@ -67,6 +67,14 @@ export default {
           this.loading = false;
           this.error = err.message;
         });
+    },
+    submitSearch(searchVal) {
+      this.$router.push({
+        path: "/search",
+        query: {
+          q: searchVal?.replace(" ", "+")
+        }
+      });
     }
   },
   created() {

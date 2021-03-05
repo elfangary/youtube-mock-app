@@ -1,22 +1,25 @@
 <template class="list-item">
   <VideoItem
     v-if="isVideo"
-    :thumbnail="item.snippet.thumbnails.default.url"
+    :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
+    :description="item.snippet.description"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
   />
   <PlayListItem
     v-if="isPlayList"
-    :thumbnail="item.snippet.thumbnails.default.url"
+    :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
+    :description="item.snippet.description"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
   />
   <ChannelItem
     v-if="isChannel"
-    :thumbnail="item.snippet.thumbnails.default.url"
+    :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
+    :description="item.snippet.description"
     :itemId="itemId"
   />
 </template>
@@ -66,7 +69,7 @@ export default {
     text-decoration: none;
   }
 
-  &__description {
+  &__info {
     display: flex;
     flex-direction: column;
     color: $gray;
