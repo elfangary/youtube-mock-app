@@ -7,7 +7,11 @@
       @sortBy-search="searchBySort"
     />
     <template v-if="!loading && !error">
-      <List :list="list" :totalResultsCount="totalResultsCount" />
+      <List
+        :list="list"
+        :totalResultsCount="totalResultsCount"
+        :showItemDesc="true"
+      />
       <ShowMoreButton
         v-if="nextPageToken"
         :handleClick="handleShowMoreItems"
