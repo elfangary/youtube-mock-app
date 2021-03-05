@@ -191,8 +191,9 @@ export default {
     }
 
     &__search-button {
-      background-color: $lightGray;
+      background-color: $extraLightGray;
       padding: 2px 15px;
+      border: 1px solid $lightGray;
     }
   }
 }
