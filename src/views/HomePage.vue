@@ -13,7 +13,7 @@
         :showItemDesc="true"
       />
       <ShowMoreButton
-        v-if="nextPageToken"
+        v-if="nextPageToken && !isDesktopView"
         :handleClick="handleShowMoreItems"
         :loading="showMoreLoading"
       />
@@ -31,9 +31,12 @@ import ShowMoreButton from "@/components/ShowMoreButton.vue";
 import Loading from "@/components/Loading.vue";
 import { constructSearchQueryStr } from "@/utils/construct_search_query_string.js";
 import SearchService from "@/services/SearchService.js";
+import { IsDesktopViewMixin } from "@/mixins/IsDesktopViewMixin.js";
+import { InfiniteScrollMixin } from "@/mixins/InfiniteScrollMixin.js";
 
 export default {
   name: "HomePage",
+  mixins: [IsDesktopViewMixin, InfiniteScrollMixin],
   components: { MainHeader, Filters, List, ShowMoreButton, Loading },
   data: function() {
     return {
@@ -64,6 +67,9 @@ export default {
     },
     handleShowMoreItems() {
       this.fetchDataList({ resetList: false });
+    },
+    handlePaginateOnScroll() {
+      this.isDesktopView && this.fetchDataList({ resetList: false });
     },
     constructSearchQuery() {
       const searchParams = {

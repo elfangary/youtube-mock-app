@@ -82,7 +82,7 @@ export const SORT_BY_FILTERS_OPTIONS = () => {
     },
     {
       title: "Upload Date",
-      value: "uploadDate",
+      value: "date",
       disabled: false
     },
     {
