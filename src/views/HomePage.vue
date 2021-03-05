@@ -7,7 +7,7 @@
       @sortBy-search="searchBySort"
     />
     <template v-if="!loading && !error">
-      <List :list="list" />
+      <List :list="list" :totalResultsCount="totalResultsCount" />
       <ShowMoreButton
         v-if="nextPageToken"
         :handleClick="handleShowMoreItems"
@@ -34,6 +34,7 @@ export default {
   data: function() {
     return {
       list: [],
+      totalResultsCount: 0,
       bindedSearchVal: "",
       bindedTypeVal: "",
       bindedDateVal: "",
@@ -80,6 +81,7 @@ export default {
         .then(data => {
           this.list = resetList ? data.items : this.list.concat(data.items);
           this.nextPageToken = data.nextPageToken;
+          this.totalResultsCount = data.pageInfo.totalResults;
           this.loading = false;
           this.showMoreLoading = false;
           this.error = null;

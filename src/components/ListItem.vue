@@ -3,6 +3,7 @@
     v-if="isVideo"
     :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
+    :description="item.snippet.description"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
   />
@@ -10,6 +11,7 @@
     v-if="isPlayList"
     :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
+    :description="item.snippet.description"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
   />
@@ -17,6 +19,7 @@
     v-if="isChannel"
     :thumbnails="item.snippet.thumbnails"
     :title="item.snippet.title"
+    :description="item.snippet.description"
     :itemId="itemId"
   />
 </template>
@@ -66,7 +69,7 @@ export default {
     text-decoration: none;
   }
 
-  &__description {
+  &__info {
     display: flex;
     flex-direction: column;
     color: $gray;

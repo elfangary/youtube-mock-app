@@ -1,48 +1,56 @@
 <template>
-  <div class="filters">
-    <button
-      class="filters__toggleButton"
-      @click="toggleFilters"
-      v-if="isDesktopView"
-    >
-      <span>
-        <Filter
-          width="20"
-          height="20"
-          :color="isFiltersVisible ? '#000' : '#696969'"
-        />
-      </span>
-      <span>Filter</span>
-    </button>
-    <div class="filters__inputs" v-if="!isDesktopView || isFiltersVisible">
-      <select v-model="typeVal" class="filters__date">
-        <option
-          v-for="type in filtersOptions.typeFiltersOptions"
-          :value="type.value"
-          :key="type.value"
-          :disabled="type.disabled"
-          >{{ type.title }}</option
+  <div class="filters-wrapper">
+    <Container>
+      <div class="filters">
+        <button
+          class="filters__toggleButton"
+          @click="toggleFilters"
+          v-if="isDesktopView"
         >
-      </select>
-      <select v-model="dateVal" class="filters__date">
-        <option
-          v-for="date in filtersOptions.dateFiltersOptions"
-          :value="date.value"
-          :key="date.value"
-          :disabled="date.disabled"
-          >{{ date.title }}</option
-        >
-      </select>
-      <select v-model="sortByVal" class="filters__sort" v-if="isDesktopView">
-        <option
-          v-for="sort in filtersOptions.sortByFiltersOptions"
-          :value="sort.value"
-          :key="sort.value"
-          :disabled="sort.disabled"
-          >{{ sort.title }}</option
-        >
-      </select>
-    </div>
+          <span>
+            <Filter
+              width="20"
+              height="20"
+              :color="isFiltersVisible ? '#000' : '#696969'"
+            />
+          </span>
+          <span>Filter</span>
+        </button>
+        <div class="filters__inputs" v-if="!isDesktopView || isFiltersVisible">
+          <select v-model="typeVal" class="filters__date">
+            <option
+              v-for="type in filtersOptions.typeFiltersOptions"
+              :value="type.value"
+              :key="type.value"
+              :disabled="type.disabled"
+              >{{ type.title }}</option
+            >
+          </select>
+          <select v-model="dateVal" class="filters__date">
+            <option
+              v-for="date in filtersOptions.dateFiltersOptions"
+              :value="date.value"
+              :key="date.value"
+              :disabled="date.disabled"
+              >{{ date.title }}</option
+            >
+          </select>
+          <select
+            v-model="sortByVal"
+            class="filters__sort"
+            v-if="isDesktopView"
+          >
+            <option
+              v-for="sort in filtersOptions.sortByFiltersOptions"
+              :value="sort.value"
+              :key="sort.value"
+              :disabled="sort.disabled"
+              >{{ sort.title }}</option
+            >
+          </select>
+        </div>
+      </div>
+    </Container>
   </div>
 </template>
 
@@ -52,13 +60,14 @@ import {
   DATE_FILTERS_OPTIONS,
   SORT_BY_FILTERS_OPTIONS
 } from "@/constants";
+import Container from "@/components/Container.vue";
 import Filter from "@/components/icons/Filter.vue";
 import { IsDesktopViewMixin } from "@/mixins/IsDesktopViewMixin.js";
 
 export default {
   name: "Filters",
   mixins: [IsDesktopViewMixin],
-  components: { Filter },
+  components: { Filter, Container },
   data: function() {
     return {
       typeVal: "",
@@ -137,6 +146,16 @@ export default {
       & + span {
         margin-left: 10px;
       }
+    }
+  }
+
+  @media (min-width: 768px) {
+    &__inputs {
+      padding: 0;
+    }
+
+    &__toggleButton {
+      justify-content: flex-end;
     }
   }
 }

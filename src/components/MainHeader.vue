@@ -1,39 +1,42 @@
 <template>
-  <div
+  <header
     class="main-header"
     :class="[isDesktopView ? 'sticky' : '', loading ? 'animate-border' : '']"
   >
-    <template class="header-wrapper" :class="loading ? 'animate-border' : ''">
-      <router-link to="/search">
-        <h1>
-          <div class="logo-wrapper">
-            <img alt="Youtube logo" :src="logoUrl" />
-          </div>
-          <span v-if="!isSearchInputVisible || isDesktopView">Youtube</span>
-        </h1>
-      </router-link>
-      <p
-        class="search-input-wrapper"
-        v-if="isSearchInputVisible || isDesktopView"
-      >
-        <input v-model="searchVal" />
-        <span v-if="searchVal" @click="clearSearchInputVal">x</span>
-      </p>
-      <button @click="toggleSearchInput">
-        <div class="svg-wrapper">
-          <SearchIcon
-            width="30"
-            height="30"
-            :color="isDesktopView ? '#696969' : '#ffffff'"
-          />
+    <Container>
+      <div class="main-header__wrapper">
+        <router-link to="/search" class="main-header__link">
+          <h1 class="main-header__title">
+            <div class="main-header__logo-wrapper">
+              <img alt="Youtube logo" :src="logoUrl" />
+            </div>
+            <span v-if="!isSearchInputVisible || isDesktopView">Youtube</span>
+          </h1>
+        </router-link>
+        <div
+          class="main-header__search-input-wrapper"
+          v-if="isSearchInputVisible || isDesktopView"
+        >
+          <input v-model="searchVal" />
+          <span v-if="searchVal" @click="clearSearchInputVal">x</span>
+          <button @click="toggleSearchInput" class="main-header__search-button">
+            <span class="main-header__search-button__svg-wrapper">
+              <SearchIcon
+                :width="isDesktopView ? 17 : 30"
+                :height="isDesktopView ? 17 : 30"
+                :color="isDesktopView ? '#696969' : '#ffffff'"
+              />
+            </span>
+          </button>
         </div>
-      </button>
-    </template>
-  </div>
+      </div>
+    </Container>
+  </header>
 </template>
 
 <script>
 import SearchIcon from "@/components/icons/Search.vue";
+import Container from "@/components/Container.vue";
 import { IsDesktopViewMixin } from "@/mixins/IsDesktopViewMixin.js";
 
 const primrayLogo = require("../assets/logo.png");
@@ -43,7 +46,8 @@ export default {
   name: "MainHeader",
   mixins: [IsDesktopViewMixin],
   components: {
-    SearchIcon
+    SearchIcon,
+    Container
   },
   props: {
     loading: {
@@ -78,13 +82,19 @@ export default {
 
 <style lang="scss">
 .main-header {
+  height: 60px;
+  background-color: $primary;
+  padding: 5px 20px;
+  box-shadow: 0 4px 2px 0px $lightGray;
+
   &.sticky {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1;
 
     & + * {
-      padding-top: 50px;
+      padding-top: 60px;
     }
 
     &::after {
@@ -104,63 +114,59 @@ export default {
       }
     }
   }
-}
 
-.header-wrapper {
-  display: flex;
-  height: 50px;
-  justify-content: space-between;
-  background-color: $primary;
-  align-items: center;
-  padding: 5px 20px;
-  box-shadow: 0 4px 2px 0px $lightGray;
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
 
-  a {
+  &__link {
     cursor: pointer;
     text-decoration: none;
+  }
 
-    h1 {
-      margin: 0;
-      color: $white;
-      font-size: 17px;
-      display: flex;
-      align-items: center;
+  &__title {
+    margin: 0;
+    color: $white;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+  }
 
-      .logo-wrapper {
-        max-width: 50px;
-        margin-inline-end: 10px;
+  &__logo-wrapper {
+    max-width: 50px;
+    margin-inline-end: 10px;
 
-        img {
-          width: 100%;
-        }
-      }
+    img {
+      width: 100%;
     }
   }
 
-  .search-input-wrapper {
-    position: relative;
-    margin: 0;
+  &__search-input-wrapper {
+    display: flex;
 
     input {
-      height: 20px;
-    }
-
-    span {
-      position: absolute;
-      right: 10px;
-      top: 2px;
-      font-size: 17px;
-      color: $gray;
+      height: 25px;
+      width: 500px;
     }
   }
 
-  button {
+  &__svg-wrapper {
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__search-button {
     background: none;
     border: 0;
     padding: 0;
     cursor: pointer;
 
-    .svg-wrapper {
+    &__svg-wrapper {
       width: 50px;
       display: flex;
       justify-content: center;
@@ -170,18 +176,23 @@ export default {
 
   @media (min-width: 768px) {
     background-color: $white;
+    padding: 0;
 
-    a {
-      h1 {
-        color: $black;
+    &__title {
+      color: $black;
+      font-size: 25px;
+    }
+
+    &__search-input-wrapper {
+      input {
+        height: 30px;
+        width: 700px;
       }
     }
 
-    .search-input-wrapper {
-      input {
-        height: 25px;
-        width: 500px;
-      }
+    &__search-button {
+      background-color: $lightGray;
+      padding: 2px 15px;
     }
   }
 }

@@ -6,8 +6,9 @@
     <div class="list-item__thumbnail-container">
       <img :src="thumbnail" class="list-item__thumbnail" :alt="title" />
     </div>
-    <div class="list-item__description">
+    <div class="list-item__info">
       <p class="list-item__title">{{ title }}</p>
+      <p v-if="isDesktopView" class="list-item__desc">{{ description }}</p>
       <p class="list-item__channel-title">{{ channelTitle }}</p>
     </div>
   </router-link>
@@ -24,6 +25,9 @@ export default {
       type: Object
     },
     title: {
+      type: String
+    },
+    description: {
       type: String
     },
     channelTitle: {
