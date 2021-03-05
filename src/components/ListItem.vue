@@ -6,6 +6,7 @@
     :description="item.snippet.description"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
+    :showItemDesc="showItemDesc"
   />
   <PlayListItem
     v-if="isPlayList"
@@ -14,6 +15,7 @@
     :description="item.snippet.description"
     :channelTitle="item.snippet.channelTitle"
     :itemId="itemId"
+    :showItemDesc="showItemDesc"
   />
   <ChannelItem
     v-if="isChannel"
@@ -21,6 +23,7 @@
     :title="item.snippet.title"
     :description="item.snippet.description"
     :itemId="itemId"
+    :showItemDesc="showItemDesc"
   />
 </template>
 
@@ -34,6 +37,9 @@ export default {
   props: {
     item: {
       type: Object
+    },
+    showItemDesc: {
+      type: Boolean
     }
   },
   computed: {
@@ -86,6 +92,13 @@ export default {
   &__channel-title {
     font-size: 13px;
     margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    &__title {
+      color: $black;
+      font-size: 18px;
+    }
   }
 }
 </style>

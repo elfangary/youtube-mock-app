@@ -8,7 +8,9 @@
     </div>
     <div class="list-item__info">
       <p class="list-item__title">{{ title }}</p>
-      <p v-if="isDesktopView" class="list-item__desc">{{ description }}</p>
+      <p v-if="isDesktopView && showItemDesc" class="list-item__desc">
+        {{ description }}
+      </p>
     </div>
   </router-link>
 </template>
@@ -31,6 +33,9 @@ export default {
     },
     itemId: {
       type: String
+    },
+    showItemDesc: {
+      type: Boolean
     }
   },
   computed: {

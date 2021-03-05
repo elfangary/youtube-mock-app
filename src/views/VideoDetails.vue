@@ -3,7 +3,11 @@
     <MainHeader @submit-search="submitSearch" :loading="loading" />
     <template v-if="!loading && !error && videoData">
       <Video :videoData="videoData" />
-      <List v-if="relatedVideos.length" :list="relatedVideos" />
+      <List
+        v-if="relatedVideos.length"
+        :list="relatedVideos"
+        :showItemDesc="false"
+      />
     </template>
     <Loading v-if="loading" />
     <p v-if="error">{{ error }}</p>
