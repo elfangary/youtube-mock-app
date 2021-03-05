@@ -1,29 +1,38 @@
 <template class="channel-banner">
-  <div class="channel-banner__theme" :style="bannerThemeStyling">
-    <span class="channel-banner__theme__avatar">
-      <img
-        :src="channelData.snippet.thumbnails.default.url"
-        :alt="channelData.snippet.title"
-      />
-    </span>
-  </div>
-  <div class="channel-banner__info">
-    <p class="channel-banner__info__title">{{ channelData.snippet.title }}</p>
-    <p class="channel-banner__info__count">
-      <span>{{ channelData.statistics.subscriberCount }}</span> subscribers
-    </p>
-    <p class="channel-banner__info__count">
-      <span>{{ channelData.statistics.videoCount }}</span> videos
-    </p>
-    <p class="channel-banner__info__count">
-      <span>{{ channelData.statistics.viewCount }}</span> views
-    </p>
+  <div class="channel-banner__wrapper">
+    <Container>
+      <div class="channel-banner__theme" :style="bannerThemeStyling">
+        <span class="channel-banner__theme__avatar">
+          <img
+            :src="channelData.snippet.thumbnails.default.url"
+            :alt="channelData.snippet.title"
+          />
+        </span>
+      </div>
+      <div class="channel-banner__info">
+        <p class="channel-banner__info__title">
+          {{ channelData.snippet.title }}
+        </p>
+        <p class="channel-banner__info__count">
+          <span>{{ channelData.statistics.subscriberCount }}</span> subscribers
+        </p>
+        <p class="channel-banner__info__count">
+          <span>{{ channelData.statistics.videoCount }}</span> videos
+        </p>
+        <p class="channel-banner__info__count">
+          <span>{{ channelData.statistics.viewCount }}</span> views
+        </p>
+      </div>
+    </Container>
   </div>
 </template>
 
 <script>
+import Container from "@/components/Container.vue";
+
 export default {
   name: "ChannelBanner",
+  components: { Container },
   props: {
     channelData: {
       type: Object
@@ -57,6 +66,8 @@ export default {
       position: absolute;
       left: 30px;
       top: 50%;
+      border-radius: 50%;
+      overflow: hidden;
     }
   }
 
@@ -84,6 +95,16 @@ export default {
 
       span {
         font-weight: bold;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    &__theme {
+      height: 100px;
+
+      &__avatar {
+        top: 80%;
       }
     }
   }
