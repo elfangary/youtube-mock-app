@@ -10,17 +10,27 @@
             <div class="main-header__logo-wrapper">
               <img alt="Youtube logo" :src="logoUrl" />
             </div>
-            <span v-if="!isSearchInputVisible || isDesktopView">Youtube</span>
+            <span v-if="!isSearchInputVisible && !isDesktopView">Youtube</span>
           </h1>
         </router-link>
-        <div
-          class="main-header__search-input-wrapper"
-          v-if="isSearchInputVisible || isDesktopView"
-        >
-          <input v-model="searchVal" />
-          <span v-if="searchVal" @click="clearSearchInputVal">x</span>
-          <button @click="toggleSearchInput" class="main-header__search-button">
-            <span class="main-header__search-button__svg-wrapper">
+        <div class="main-header__search">
+          <div
+            class="main-header__search__input-wrapper"
+            v-if="isSearchInputVisible || isDesktopView"
+          >
+            <input v-model="searchVal" />
+            <span
+              class="main-header__search__clear"
+              v-if="searchVal"
+              @click="clearSearchInputVal"
+              >x</span
+            >
+          </div>
+          <button
+            @click="toggleSearchInput"
+            class="main-header__search__button"
+          >
+            <span class="main-header__search__button__svg-wrapper">
               <SearchIcon
                 :width="isDesktopView ? 17 : 30"
                 :height="isDesktopView ? 17 : 30"
@@ -71,7 +81,7 @@ export default {
         return this.$emit("submit-search", this.searchVal);
       }
 
-      return (this.isSearchInputVisible = !this.isSearchInputVisible);
+      this.isSearchInputVisible = !this.isSearchInputVisible;
     },
     clearSearchInputVal() {
       this.searchVal = "";
@@ -144,33 +154,42 @@ export default {
     }
   }
 
-  &__search-input-wrapper {
+  &__search {
     display: flex;
 
-    input {
-      height: 25px;
-      width: 500px;
+    &__input-wrapper {
+      position: relative;
+
+      input {
+        height: 25px;
+        width: 200px;
+      }
     }
-  }
 
-  &__svg-wrapper {
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    &__clear {
+      position: absolute;
+      right: 10px;
+      cursor: pointer;
+      top: 4px;
+      font-size: 18px;
+    }
 
-  &__search-button {
-    background: none;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
+    &__button {
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
 
-    &__svg-wrapper {
-      width: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      &:focus {
+        outline: 0;
+      }
+
+      &__svg-wrapper {
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 
@@ -183,17 +202,30 @@ export default {
       font-size: 25px;
     }
 
-    &__search-input-wrapper {
-      input {
-        height: 30px;
-        width: 700px;
-      }
+    &__logo-wrapper {
+      max-width: 120px;
     }
 
-    &__search-button {
-      background-color: $extraLightGray;
-      padding: 2px 15px;
-      border: 1px solid $lightGray;
+    &__search {
+      display: flex;
+
+      &__input-wrapper {
+        input {
+          height: 30px;
+          width: 700px;
+        }
+      }
+
+      &__clear {
+        top: 6px;
+        font-size: 20px;
+      }
+
+      &__button {
+        background-color: $extraLightGray;
+        padding: 2px 15px;
+        border: 1px solid $lightGray;
+      }
     }
   }
 }
